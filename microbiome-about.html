@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="description"
+      content="Learn about the art and science behind our nine-gut-microbes project."
+    />
+    <meta
+      name="keywords"
+      content="microbiome, gut bacteria, about, Roseburia, Bacteroides, Lactobacillus, Prevotella"
+    />
+    <meta name="author" content="Your Name" />
+    <title>About - Microbiome Project</title>
+
+    <style>
+      /* Minimal black/white styling + consistent nav */
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        font-family: sans-serif;
+      }
+      body {
+        background: #fff;
+        color: #000;
+        min-height: 100vh;
+        padding: 1rem;
+        position: relative;
+      }
+
+      nav {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        padding: 0.5rem 1rem;
+        background: rgba(255, 255, 255, 0.8);
+        z-index: 999;
+        display: flex;
+        gap: 1rem;
+        border-bottom: 1px solid #000;
+      }
+      nav a {
+        text-decoration: none;
+        color: #000;
+        font-weight: bold;
+        padding: 0.5rem;
+        transition: background 0.2s;
+      }
+      nav a:hover {
+        background: #000;
+        color: #fff;
+      }
+
+      main {
+        margin-top: 60px; /* to avoid overlap with nav */
+        max-width: 800px;
+        margin-left: auto;
+        margin-right: auto;
+        position: relative;
+      }
+      h1 {
+        font-size: 1.8rem;
+        margin-bottom: 1rem;
+        text-align: center;
+        margin-top: 1rem;
+      }
+      p {
+        line-height: 1.4;
+        margin-bottom: 1rem;
+      }
+      .section {
+        margin-bottom: 2rem;
+      }
+
+      /* Example: show 2 microbe images on About page */
+      .microbe-gallery {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+        margin: 2rem 0;
+        justify-content: center;
+      }
+      .microbe-gallery img {
+        max-width: 250px;
+        height: auto;
+        border: 2px solid #000;
+      }
+
+      /* Simple decorative shape at the bottom */
+      .bottom-deco {
+        position: fixed;
+        width: 200px;
+        height: 200px;
+        bottom: -50px;
+        right: -50px;
+        background: #000;
+        border-radius: 50%;
+        opacity: 0.06;
+        filter: blur(20px);
+        z-index: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <nav>
+      <a href="microbiome-about.html">About</a>
+      <a href="microbiome-quiz.html">Quiz</a>
+    </nav>
+
+    <main>
+      <h1>About the Nine Microbes Project</h1>
+
+      <div class="section">
+        <p>
+          The human gut is home to a vast community of microorganisms. In our
+          project, we focus on nine particularly interesting microbes:
+          <em
+            >Roseburia, Bacteroides, Lactobacillus, Prevotella, Faecalibacterium
+            prausnitzii, Bifidobacterium, E. coli, Akkermansia, and
+            Ruminococcus</em
+          >.
+        </p>
+        <p>
+          By blending <strong>art</strong> and <strong>science</strong>, we
+          highlight the distinct forms and potential roles these microbes play
+          in our health. Each illustration is hand-drawn to showcase their
+          unique shapes, from the coiling forms of <em>Roseburia</em> to the
+          spiky bristles of <em>E. coli</em>.
+        </p>
+      </div>
+
+      <div class="section microbe-gallery">
+        <!-- Example: show 2 microbes here -->
+        <figure>
+          <img src="images/microbe-roseburia.jpg" alt="Roseburia microbe" />
+          <figcaption>Roseburia</figcaption>
+        </figure>
+        <figure>
+          <img src="images/microbe-bacteroides.jpg" alt="Bacteroides microbe" />
+          <figcaption>Bacteroides</figcaption>
+        </figure>
+      </div>
+
+      <div class="section">
+        <h2>Our Vision</h2>
+        <p>
+          We believe that science communication can be enhanced by an artistic
+          approach, making microscopic worlds accessible and engaging. By
+          blending visuals, storytelling, and interactive elements, we aim to
+          inspire more people to learn about their own internal ecosystems.
+        </p>
+        <p>
+          Questions, collaborations, or feedback? Reach out at:<br />
+          <strong>Email:</strong>
+          <a href="mailto:info@microbiomeproject.org"
+            >info@microbiomeproject.org</a
+          >
+        </p>
+      </div>
+    </main>
+
+    <div class="bottom-deco"></div>
+  </body>
+</html>

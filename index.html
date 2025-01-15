@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="description"
+      content="An art/science exploration of nine gut microbes: Roseburia, Bacteroides, Lactobacillus, Prevotella, Faecalibacterium, Bifidobacterium, E. coli, Akkermansia, Ruminococcus."
+    />
+    <meta
+      name="keywords"
+      content="microbiome, gut bacteria, quiz, art, science, Roseburia, Bacteroides, Lactobacillus, Prevotella"
+    />
+    <meta name="author" content="Your Name" />
+    <title>The Microbiome Experience</title>
+
+    <style>
+      /* Global Reset & Minimal Black/White/Gray Design */
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        font-family: sans-serif;
+      }
+      body {
+        background: #fff;
+        color: #000;
+        width: 100%;
+        height: 100vh;
+        position: relative;
+        overflow: hidden;
+      }
+
+      /* Navigation Bar */
+      nav {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        padding: 0.5rem 1rem;
+        background: rgba(255, 255, 255, 0.8);
+        z-index: 999;
+        display: flex;
+        gap: 1rem;
+        border-bottom: 1px solid #000;
+      }
+      nav a {
+        text-decoration: none;
+        color: #000;
+        font-weight: bold;
+        padding: 0.5rem;
+        transition: background 0.2s;
+      }
+      nav a:hover {
+        background: #000;
+        color: #fff;
+      }
+
+      /* Center Container */
+      .content {
+        position: relative;
+        z-index: 10;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        padding: 2rem;
+      }
+      .content h1 {
+        font-size: 2rem;
+        margin-bottom: 1rem;
+      }
+      .content p {
+        max-width: 600px;
+        margin-bottom: 2rem;
+        line-height: 1.5;
+      }
+      .quiz-link {
+        display: inline-block;
+        text-decoration: none;
+        padding: 0.8rem 1.5rem;
+        border: 2px solid #000;
+        color: #000;
+        font-weight: bold;
+        transition: background 0.3s, color 0.3s;
+      }
+      .quiz-link:hover {
+        background: #000;
+        color: #fff;
+      }
+
+      /* Large swirl in background */
+      .swirl-bg {
+        position: absolute;
+        width: 800px;
+        height: 800px;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        border-radius: 50%;
+        background: radial-gradient(
+          circle at center,
+          #000 10%,
+          transparent 60%
+        );
+        opacity: 0.03;
+        z-index: 0;
+        animation: swirl 30s linear infinite;
+      }
+      @keyframes swirl {
+        0% {
+          transform: translate(-50%, -50%) rotate(0);
+        }
+        100% {
+          transform: translate(-50%, -50%) rotate(360deg);
+        }
+      }
+
+      /* Multiple bubble clusters (microbial colonies) */
+      .bubble-cluster {
+        position: absolute;
+        border-radius: 50%;
+        background: #000;
+        opacity: 0.1;
+        filter: blur(15px);
+        animation: floatMicrobe 10s ease-in-out infinite alternate;
+      }
+      @keyframes floatMicrobe {
+        0% {
+          transform: translateY(0) translateX(0);
+        }
+        100% {
+          transform: translateY(-20px) translateX(20px);
+        }
+      }
+      .bubble-cluster.one {
+        width: 200px;
+        height: 200px;
+        top: 15%;
+        left: 5%;
+      }
+      .bubble-cluster.two {
+        width: 150px;
+        height: 150px;
+        top: 40%;
+        right: 12%;
+        animation-duration: 14s;
+        opacity: 0.12;
+      }
+      .bubble-cluster.three {
+        width: 100px;
+        height: 100px;
+        top: 60%;
+        left: 15%;
+        animation-duration: 12s;
+        opacity: 0.08;
+      }
+      .bubble-cluster.four {
+        width: 300px;
+        height: 300px;
+        bottom: 10%;
+        left: 50%;
+        transform: translateX(-50%);
+        animation-duration: 16s;
+        opacity: 0.06;
+      }
+
+      /* Micro-lines for a microbial vibe */
+      .micro-lines {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 160px;
+        height: 160px;
+        border: 2px solid #000;
+        border-radius: 50%;
+        transform: translate(-50%, -50%);
+        opacity: 0.05;
+        animation: spin 25s linear infinite;
+        z-index: 1;
+      }
+      .micro-lines::before,
+      .micro-lines::after {
+        content: "";
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        border: 2px solid #000;
+        border-radius: 50%;
+        top: 0;
+        left: 0;
+        opacity: 0.3;
+      }
+      .micro-lines::before {
+        transform: scale(0.7) rotate(45deg);
+      }
+      .micro-lines::after {
+        transform: scale(0.4) rotate(90deg);
+      }
+      @keyframes spin {
+        from {
+          transform: translate(-50%, -50%) rotate(0);
+        }
+        to {
+          transform: translate(-50%, -50%) rotate(360deg);
+        }
+      }
+
+      /* A gray "cute microbiome" sticker in the corner */
+      .microbiome-sticker {
+        position: fixed;
+        top: 70%;
+        right: 0;
+        background: #ccc;
+        color: #000;
+        padding: 1rem;
+        border-radius: 8px 0 0 8px;
+        box-shadow: -2px 0 6px rgba(0, 0, 0, 0.2);
+        font-weight: bold;
+        transform: translateY(-50%);
+        z-index: 999;
+        transition: transform 0.3s;
+      }
+      .microbiome-sticker:hover {
+        transform: translateY(-50%) translateX(-10px);
+      }
+      .microbiome-sticker span {
+        display: inline-block;
+        max-width: 100px;
+        text-align: center;
+      }
+
+      /* Watermark text in background */
+      .watermark {
+        position: absolute;
+        top: 25%;
+        left: 15%;
+        font-size: 6rem;
+        color: #000;
+        opacity: 0.02;
+        transform: rotate(-20deg);
+        z-index: 0;
+        pointer-events: none;
+      }
+
+      @media (max-width: 600px) {
+        .content h1 {
+          font-size: 1.6rem;
+        }
+        .content p {
+          font-size: 0.9rem;
+        }
+        .microbiome-sticker {
+          font-size: 0.9rem;
+        }
+        .watermark {
+          font-size: 4rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <nav>
+      <a href="microbiome-home.html">Home</a>
+      <a href="microbiome-about.html">About</a>
+      <a href="microbiome-quiz.html">Quiz</a>
+    </nav>
+
+    <!-- swirl, bubbles, lines, sticker -->
+    <div class="swirl-bg"></div>
+    <div class="bubble-cluster one"></div>
+    <div class="bubble-cluster two"></div>
+    <div class="bubble-cluster three"></div>
+    <div class="bubble-cluster four"></div>
+    <div class="micro-lines"></div>
+    <div class="microbiome-sticker">
+      <span>Cute Microbe!</span>
+    </div>
+    <div class="content">
+      <h1>The Microbiome Experience</h1>
+      <p>
+        Welcome to an art/science exploration of the microscopic world
+        within.<br />
+        We feature nine different gut microbes, each beautifully illustrated.<br />
+        Learn about them, or take our quiz to find out which microbe you’d be!
+      </p>
+      <a class="quiz-link" href="microbiome-quiz.html">Start the Quiz</a>
+    </div>
+  </body>
+</html>
