@@ -1,320 +1,376 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <title>Microbiome Quiz</title>
-  <!-- No meta tags, as requested -->
+  <head>
+    <title>Microbiome Quiz</title>
+    <!-- No meta tags, as requested -->
 
-  <!-- React, ReactDOM, Babel (for inline JSX) -->
-  <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
-  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
-  <script src="https://unpkg.com/babel-standalone@6.26.0/babel.min.js"></script>
+    <!-- React, ReactDOM, Babel (for inline JSX) -->
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6.26.0/babel.min.js"></script>
 
-  <style>
-    /* Global Reset & Minimal Black/White Design */
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: sans-serif;
-    }
-    body {
-      background: #fff;
-      color: #000;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 100vh;
-      padding: 1rem;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .quiz-container {
-      width: 100%;
-      max-width: 600px;
-      background: #fff;
-      border: 2px solid #000;
-      border-radius: 8px;
-      padding: 1.5rem;
-      z-index: 10;
-      position: relative;
-    }
-
-    h1 {
-      font-size: 1.5rem;
-      margin-bottom: 1rem;
-      text-align: center;
-    }
-
-    .question-container {
-      margin-bottom: 1.5rem;
-    }
-    .question {
-      font-weight: bold;
-      margin-bottom: 0.75rem;
-    }
-    .answers button {
-      display: block;
-      width: 100%;
-      margin: 0.25rem 0;
-      padding: 0.5rem;
-      border: 2px solid #000;
-      background: #fff;
-      cursor: pointer;
-      text-align: left;
-      transition: background 0.2s, color 0.2s;
-    }
-    .answers button:hover {
-      background: #000;
-      color: #fff;
-    }
-
-    .result {
-      margin-top: 1rem;
-      padding: 1rem;
-      border: 2px dashed #000;
-      text-align: center;
-      background: #f9f9f9;
-      font-weight: bold;
-    }
-    .result img {
-      display: block;
-      margin: 1rem auto;
-      max-width: 150px; /* Adjust as you like */
-      height: auto;
-    }
-
-    /* Decorative background circles */
-    .circle-bg {
-      position: absolute;
-      width: 180px;
-      height: 180px;
-      background: #000;
-      border-radius: 50%;
-      opacity: 0.08;
-      filter: blur(12px);
-      animation: floatMicrobe 10s ease-in-out infinite alternate;
-      z-index: 0;
-    }
-    .circle-bg.one {
-      top: 15%;
-      left: 10%;
-    }
-    .circle-bg.two {
-      bottom: 15%;
-      right: 15%;
-      width: 220px;
-      height: 220px;
-      opacity: 0.07;
-      animation-duration: 12s;
-    }
-    @keyframes floatMicrobe {
-      0%   { transform: translate(0, 0); }
-      100% { transform: translate(20px, -20px); }
-    }
-  </style>
-</head>
-<body>
-  <!-- Subtle black circles in the background -->
-  <div class="circle-bg one"></div>
-  <div class="circle-bg two"></div>
-
-  <div id="root"></div>
-
-  <script type="text/babel">
-    const { useState } = React;
-
-    // Translated quiz data (6 questions, each with 7 answers: A–G)
-    const quizQuestions = [
-      {
-        question: "1. What is your favorite activity?",
-        answers: [
-          { text: "A) Gardening or cooking with fresh ingredients", letter: 'a' },
-          { text: "B) Sports and action", letter: 'b' },
-          { text: "C) Taking on new challenges", letter: 'c' },
-          { text: "D) Creative hobbies like painting or writing", letter: 'd' },
-          { text: "E) Going on adventures and trying new things", letter: 'e' },
-          { text: "F) Analyzing and optimizing systems", letter: 'f' },
-          { text: "G) Networking and organizing group projects", letter: 'g' },
-        ]
-      },
-      {
-        question: "2. How do you deal with stress?",
-        answers: [
-          { text: "A) I stay calm and stick to a healthy routine", letter: 'a' },
-          { text: "B) I push myself physically—sports help me relieve stress", letter: 'b' },
-          { text: "C) Stress drives me to peak performance", letter: 'c' },
-          { text: "D) I distract myself with new ideas or projects", letter: 'd' },
-          { text: "E) I try something new to clear my head", letter: 'e' },
-          { text: "F) I dive into work and forget the stress", letter: 'f' },
-          { text: "G) I analyze the situation and organize a plan", letter: 'g' },
-        ]
-      },
-      {
-        question: "3. What kind of diet appeals to you the most?",
-        answers: [
-          { text: "A) Fresh fruits and vegetables, preferably varied", letter: 'a' },
-          { text: "B) High-protein foods like meat or legumes", letter: 'b' },
-          { text: "C) Anything that quickly provides energy and is easily available", letter: 'c' },
-          { text: "D) Whole grain products and lightly sweet foods", letter: 'd' },
-          { text: "E) Exotic dishes and unusual ingredients", letter: 'e' },
-          { text: "F) I like fatty, fast-food-type meals", letter: 'f' },
-          { text: "G) Everything in moderation", letter: 'g' },
-        ]
-      },
-      {
-        question: "4. How do you act in groups?",
-        answers: [
-          { text: "A) I stay in the background but support the group's goal", letter: 'a' },
-          { text: "B) I take the lead and bring everyone together", letter: 'b' },
-          { text: "C) I push myself to the front, no matter what others think", letter: 'c' },
-          { text: "D) I am creative and bring new ideas", letter: 'd' },
-          { text: "E) I try out new approaches and bring momentum", letter: 'e' },
-          { text: "F) I am direct and speak my mind", letter: 'f' },
-          { text: "G) I coordinate and ensure order", letter: 'g' },
-        ]
-      },
-      {
-        question: "5. Which environment do you like best?",
-        answers: [
-          { text: "A) A beautiful garden or park", letter: 'a' },
-          { text: "B) A sports hall or fitness studio", letter: 'b' },
-          { text: "C) A chaotic underground rave", letter: 'c' },
-          { text: "D) A creative studio or workshop", letter: 'd' },
-          { text: "E) A lively, exciting city", letter: 'e' },
-          { text: "F) A bustling market with lots of smells, colors, and people", letter: 'f' },
-          { text: "G) A well-organized office or study", letter: 'g' },
-        ]
-      },
-      {
-        question: "6. What is your stance on change?",
-        answers: [
-          { text: "A) I’m open, as long as it’s positive", letter: 'a' },
-          { text: "B) I gladly accept challenges", letter: 'b' },
-          { text: "C) I immediately take advantage of changes", letter: 'c' },
-          { text: "D) I welcome changes and see them as opportunities", letter: 'd' },
-          { text: "E) I actively look for new experiences", letter: 'e' },
-          { text: "F) I’m skeptical and analyze changes before I accept them", letter: 'f' },
-          { text: "G) I plan before I act", letter: 'g' },
-        ]
+    <style>
+      /* Global Reset & Minimal Black/White Design */
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        font-family: sans-serif;
       }
-    ];
-
-    // Map from letter to the final result object: name, description, image path
-    const letterToResult = {
-      'a': {
-        name: "Bifidobacterium",
-        description: "You are a supporter! You strengthen the community and foster growth in others. Your calm, friendly manner makes you indispensable.",
-        image: "images/microbe-bifidobacterium.jpg"
-      },
-      'b': {
-        name: "Bacteroides",
-        description: "You are a doer! You tackle things, love challenges, and enjoy being in the spotlight. Your energy is contagious!",
-        image: "images/microbe-bacteroides.jpg"
-      },
-      'c': {
-        name: "Campylobacter (pathogenic)",
-        description: "You are a rebel! You can stir up trouble. If your environment isn’t balanced, conflicts may arise.",
-        image: "images/microbe-campylobacter.jpg"
-      },
-      'd': {
-        name: "Faecalibacterium prausnitzii",
-        description: "You are an innovator! Your creativity and ability to create balance make you and indispensable part of every community.",
-        image: "images/microbe-faecalibacterium.jpg"
-      },
-      'e': {
-        name: "Akkermansia muciniphila",
-        description: "You are an adventurer! You love discovering new things and bring excitement to every situation. Your energy inspires others.",
-        image: "images/microbe-akkermansia.jpg"
-      },
-      'f': {
-        name: "Escherichia coli (pathogenic)",
-        description: "You are impulsive and often aim for quick success. However, your decisions can have long-term consequences for your environment.",
-        image: "images/microbe-ecoli.jpg"
-      },
-      'g': {
-        name: "Ruminococcus",
-        description: "You are an organizer! You keep everything in order and ensure that everything runs smoothly. Your structure provides security.",
-        image: "images/microbe-ruminococcus.jpg"
+      body {
+        background: #fff;
+        color: #000;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+        padding: 1rem;
+        position: relative;
+        overflow: hidden;
       }
-    };
 
-    function MicrobiomeQuiz() {
-      // Track how many times each letter is chosen
-      const [letterScores, setLetterScores] = useState({
-        a: 0, b: 0, c: 0, d: 0, e: 0, f: 0, g: 0
-      });
-      const [currentQ, setCurrentQ] = useState(0);
-      const [finalResult, setFinalResult] = useState(null);
+      .quiz-container {
+        width: 100%;
+        max-width: 600px;
+        background: #fff;
+        border: 2px solid #000;
+        border-radius: 8px;
+        padding: 1.5rem;
+        z-index: 10;
+        position: relative;
+      }
 
-      const handleAnswer = (letter) => {
-        // Increment the selected letter's count
-        const newScores = { ...letterScores };
-        newScores[letter] = (newScores[letter] || 0) + 1;
-        setLetterScores(newScores);
+      h1 {
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+        text-align: center;
+      }
 
-        // Move to the next question or finalize
-        if (currentQ < quizQuestions.length - 1) {
-          setCurrentQ(currentQ + 1);
-        } else {
-          // Determine which letter is highest
-          const sortedScores = Object.entries(newScores).sort((a,b) => b[1] - a[1]);
-          const topLetter = sortedScores[0][0]; // 'a'...'g'
-          setFinalResult(letterToResult[topLetter]);
+      .question-container {
+        margin-bottom: 1.5rem;
+      }
+      .question {
+        font-weight: bold;
+        margin-bottom: 0.75rem;
+      }
+      .answers button {
+        display: block;
+        width: 100%;
+        margin: 0.25rem 0;
+        padding: 0.5rem;
+        border: 2px solid #000;
+        background: #fff;
+        cursor: pointer;
+        text-align: left;
+        transition: background 0.2s, color 0.2s;
+      }
+      .answers button:hover {
+        background: #000;
+        color: #fff;
+      }
+
+      .result {
+        margin-top: 1rem;
+        padding: 1rem;
+        border: 2px dashed #000;
+        text-align: center;
+        background: #f9f9f9;
+        font-weight: bold;
+      }
+      .result img {
+        display: block;
+        margin: 1rem auto;
+        max-width: 150px; /* Adjust as you like */
+        height: auto;
+      }
+
+      /* Decorative background circles */
+      .circle-bg {
+        position: absolute;
+        width: 180px;
+        height: 180px;
+        background: #000;
+        border-radius: 50%;
+        opacity: 0.08;
+        filter: blur(12px);
+        animation: floatMicrobe 10s ease-in-out infinite alternate;
+        z-index: 0;
+      }
+      .circle-bg.one {
+        top: 15%;
+        left: 10%;
+      }
+      .circle-bg.two {
+        bottom: 15%;
+        right: 15%;
+        width: 220px;
+        height: 220px;
+        opacity: 0.07;
+        animation-duration: 12s;
+      }
+      @keyframes floatMicrobe {
+        0% {
+          transform: translate(0, 0);
         }
+        100% {
+          transform: translate(20px, -20px);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Subtle black circles in the background -->
+    <div class="circle-bg one"></div>
+    <div class="circle-bg two"></div>
+
+    <div id="root"></div>
+
+    <script type="text/babel">
+      const { useState } = React;
+
+      // Translated quiz data (6 questions, each with 7 answers: A–G)
+      const quizQuestions = [
+        {
+          question: "1. What is your favorite activity?",
+          answers: [
+            {
+              text: "A) Gardening or cooking with fresh ingredients",
+              letter: "a",
+            },
+            { text: "B) Sports and action", letter: "b" },
+            { text: "C) Taking on new challenges", letter: "c" },
+            {
+              text: "D) Creative hobbies like painting or writing",
+              letter: "d",
+            },
+            {
+              text: "E) Going on adventures and trying new things",
+              letter: "e",
+            },
+            { text: "F) Analyzing and optimizing systems", letter: "f" },
+            {
+              text: "G) Networking and organizing group projects",
+              letter: "g",
+            },
+          ],
+        },
+        {
+          question: "2. How do you deal with stress?",
+          answers: [
+            {
+              text: "A) I stay calm and stick to a healthy routine",
+              letter: "a",
+            },
+            {
+              text: "B) I push myself physically—sports help me relieve stress",
+              letter: "b",
+            },
+            { text: "C) Stress drives me to peak performance", letter: "c" },
+            {
+              text: "D) I distract myself with new ideas or projects",
+              letter: "d",
+            },
+            { text: "E) I try something new to clear my head", letter: "e" },
+            { text: "F) I dive into work and forget the stress", letter: "f" },
+            {
+              text: "G) I analyze the situation and organize a plan",
+              letter: "g",
+            },
+          ],
+        },
+        {
+          question: "3. What kind of diet appeals to you the most?",
+          answers: [
+            {
+              text: "A) Fresh fruits and vegetables, preferably varied",
+              letter: "a",
+            },
+            { text: "B) High-protein foods like meat or legumes", letter: "b" },
+            {
+              text: "C) Anything that quickly provides energy and is easily available",
+              letter: "c",
+            },
+            {
+              text: "D) Whole grain products and lightly sweet foods",
+              letter: "d",
+            },
+            { text: "E) Exotic dishes and unusual ingredients", letter: "e" },
+            { text: "F) I like fatty, fast-food-type meals", letter: "f" },
+            { text: "G) Everything in moderation", letter: "g" },
+          ],
+        },
+        {
+          question: "4. How do you act in groups?",
+          answers: [
+            {
+              text: "A) I stay in the background but support the group's goal",
+              letter: "a",
+            },
+            {
+              text: "B) I take the lead and bring everyone together",
+              letter: "b",
+            },
+            {
+              text: "C) I push myself to the front, no matter what others think",
+              letter: "c",
+            },
+            { text: "D) I am creative and bring new ideas", letter: "d" },
+            {
+              text: "E) I try out new approaches and bring momentum",
+              letter: "e",
+            },
+            { text: "F) I am direct and speak my mind", letter: "f" },
+            { text: "G) I coordinate and ensure order", letter: "g" },
+          ],
+        },
+        {
+          question: "5. Which environment do you like best?",
+          answers: [
+            { text: "A) A beautiful garden or park", letter: "a" },
+            { text: "B) A sports hall or fitness studio", letter: "b" },
+            { text: "C) A chaotic underground rave", letter: "c" },
+            { text: "D) A creative studio or workshop", letter: "d" },
+            { text: "E) A lively, exciting city", letter: "e" },
+            {
+              text: "F) A bustling market with lots of smells, colors, and people",
+              letter: "f",
+            },
+            { text: "G) A well-organized office or study", letter: "g" },
+          ],
+        },
+        {
+          question: "6. What is your stance on change?",
+          answers: [
+            { text: "A) I’m open, as long as it’s positive", letter: "a" },
+            { text: "B) I gladly accept challenges", letter: "b" },
+            { text: "C) I immediately take advantage of changes", letter: "c" },
+            {
+              text: "D) I welcome changes and see them as opportunities",
+              letter: "d",
+            },
+            { text: "E) I actively look for new experiences", letter: "e" },
+            {
+              text: "F) I’m skeptical and analyze changes before I accept them",
+              letter: "f",
+            },
+            { text: "G) I plan before I act", letter: "g" },
+          ],
+        },
+      ];
+
+      // Map from letter to the final result object: name, description, image path
+      const letterToResult = {
+        a: {
+          name: "Bifidobacterium",
+          description:
+            "You are a supporter! You strengthen the community and foster growth in others. Your calm, friendly manner makes you indispensable.",
+          image: "images/microbe-bifidobacterium.jpg",
+        },
+        b: {
+          name: "Bacteroides",
+          description:
+            "You are a doer! You tackle things, love challenges, and enjoy being in the spotlight. Your energy is contagious!",
+          image: "images/microbe-bacteroides.jpg",
+        },
+        c: {
+          name: "Campylobacter (pathogenic)",
+          description:
+            "You are a rebel! You can stir up trouble. If your environment isn’t balanced, conflicts may arise.",
+          image: "images/microbe-campylobacter.jpg",
+        },
+        d: {
+          name: "Faecalibacterium prausnitzii",
+          description:
+            "You are an innovator! Your creativity and ability to create balance make you and indispensable part of every community.",
+          image: "images/microbe-faecalibacterium.jpg",
+        },
+        e: {
+          name: "Akkermansia muciniphila",
+          description:
+            "You are an adventurer! You love discovering new things and bring excitement to every situation. Your energy inspires others.",
+          image: "images/microbe-akkermansia.jpg",
+        },
+        f: {
+          name: "Escherichia coli (pathogenic)",
+          description:
+            "You are impulsive and often aim for quick success. However, your decisions can have long-term consequences for your environment.",
+          image: "images/microbe-ecoli.jpg",
+        },
+        g: {
+          name: "Ruminococcus",
+          description:
+            "You are an organizer! You keep everything in order and ensure that everything runs smoothly. Your structure provides security.",
+          image: "images/microbe-ruminococcus.jpg",
+        },
       };
 
-      return (
-        <div className="quiz-container">
-          <h1>Which Gut Bacterium Are You?</h1>
+      function MicrobiomeQuiz() {
+        // Track how many times each letter is chosen
+        const [letterScores, setLetterScores] = useState({
+          a: 0,
+          b: 0,
+          c: 0,
+          d: 0,
+          e: 0,
+          f: 0,
+          g: 0,
+        });
+        const [currentQ, setCurrentQ] = useState(0);
+        const [finalResult, setFinalResult] = useState(null);
 
-          {!finalResult ? (
-            <div className="question-container">
-              <p className="question">{quizQuestions[currentQ].question}</p>
-              <div className="answers">
-                {quizQuestions[currentQ].answers.map((ans, idx) => (
-                  <button key={idx} onClick={() => handleAnswer(ans.letter)}>
-                    {ans.text}
-                  </button>
-                ))}
+        const handleAnswer = (letter) => {
+          // Increment the selected letter's count
+          const newScores = { ...letterScores };
+          newScores[letter] = (newScores[letter] || 0) + 1;
+          setLetterScores(newScores);
+
+          // Move to the next question or finalize
+          if (currentQ < quizQuestions.length - 1) {
+            setCurrentQ(currentQ + 1);
+          } else {
+            // Determine which letter is highest
+            const sortedScores = Object.entries(newScores).sort(
+              (a, b) => b[1] - a[1]
+            );
+            const topLetter = sortedScores[0][0]; // 'a'...'g'
+            setFinalResult(letterToResult[topLetter]);
+          }
+        };
+
+        return (
+          <div className="quiz-container">
+            <h1>Which Gut Bacterium Are You?</h1>
+
+            {!finalResult ? (
+              <div className="question-container">
+                <p className="question">{quizQuestions[currentQ].question}</p>
+                <div className="answers">
+                  {quizQuestions[currentQ].answers.map((ans, idx) => (
+                    <button key={idx} onClick={() => handleAnswer(ans.letter)}>
+                      {ans.text}
+                    </button>
+                  ))}
+                </div>
               </div>
-            </div>
-          ) : (
-            <div className="result">
-              <p>You are most like:</p>
-              <h2>{finalResult.name}</h2>
-              <img 
-                src={finalResult.image} 
-                alt={finalResult.name} 
-              />
-              <p style={{ marginTop: "0.5rem" }}>
-                {finalResult.description}
-              </p>
-              <br />
-              <p>
-                <a 
-                  href="results.pdf" 
-                  target="_blank" 
-                  style={{ 
-                    textDecoration: 'underline',
-                    color: '#000',
-                    fontWeight: 'bold'
-                  }}
-                >
-                  Get your PDF
-                </a>
-              </p>
-            </div>
-          )}
-        </div>
-      );
-    }
+            ) : (
+              <div className="result">
+                <p>You are most like:</p>
+                <h2>{finalResult.name}</h2>
+                <img src={finalResult.image} alt={finalResult.name} />
+                <p style={{ marginTop: "0.5rem" }}>{finalResult.description}</p>
+                <br />
+                <p></p>
+              </div>
+            )}
+          </div>
+        );
+      }
 
-    function App() {
-      return <MicrobiomeQuiz />;
-    }
+      function App() {
+        return <MicrobiomeQuiz />;
+      }
 
-    ReactDOM.render(<App />, document.getElementById("root"));
-  </script>
-</body>
+      ReactDOM.render(<App />, document.getElementById("root"));
+    </script>
+  </body>
 </html>
